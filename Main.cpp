@@ -18,7 +18,7 @@ int main()
 	int points{ 0 };
 
 	// Creation of the window
-    RenderWindow window(sf::VideoMode(640, 480), "Simple Square Game");
+    RenderWindow window(sf::VideoMode(640, 480), "Simple Ball Game", Style::Close);
 	window.setMouseCursorVisible(false);
 	window.setFramerateLimit(60);
 
@@ -26,8 +26,8 @@ int main()
 	CircleShape hoop;
 	hoop.setRadius(50.f);
 	hoop.setFillColor(Color::Black);
-	hoop.setOutlineThickness(2.f);
-	hoop.setOutlineColor(Color::Blue);
+	hoop.setOutlineThickness(5.f);
+	hoop.setOutlineColor(Color::Green);
 	hoop.setPosition(Vector2f(0, 10.f));
 
 	// Loading of the front
