@@ -7,7 +7,7 @@ using namespace sf;
 void updateBall(Sprite& ballSprite, RenderWindow& window, bool& isShot);
 void updateHoop(CircleShape& hoop, RenderWindow& window, int& dir, float& hoopSpeed);
 void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, bool& isShot, int& points, Text& textPoints, Sound& ballSound);
-void changeDifficulty(int& points, float& hoopSpeed);
+void changeDifficulty(int& points, float& hoopSpeed, CircleShape& hoop);
 
 int main()
 {
@@ -88,14 +88,13 @@ int main()
 		collisionBall(ballSprite, hoop, window, isShot, points, textPoints, ballSound);
 
 		// Change difficulty
-		changeDifficulty(points, hoopSpeed);
+		changeDifficulty(points, hoopSpeed, hoop);
 
 		// Draw
 		window.clear(Color::White);
 
 		window.draw(ballSprite);
 		window.draw(hoop);
-		// window.draw(ball);
 		window.draw(textPoints);
 
 		window.display();
@@ -114,7 +113,7 @@ void updateBall(Sprite& ballSprite, RenderWindow& window, bool& isShot)
 	if (!isShot)
 		ballSprite.setPosition(Mouse::getPosition(window).x, ballSprite.getPosition().y);
 	else
-		ballSprite.move(0, -5.f);
+		ballSprite.move(0, -7.5);
 }
 
 void updateHoop(CircleShape& hoop, RenderWindow& window, int& dir, float& hoopSpeed)
@@ -156,12 +155,29 @@ void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, 
 	}
 }
 
-void changeDifficulty(int& points, float& hoopSpeed)
+void changeDifficulty(int& points, float& hoopSpeed, CircleShape& hoop)
 {
 	if (points >= 5)
+	{
 		hoopSpeed = 7.5f;
-
+		hoop.setOutlineColor(Color::Yellow);
+	}
+		
 	if (points >= 10)
+	{
 		hoopSpeed = 10.0f;
+		hoop.setOutlineColor(Color::Red);
+	}
 
+	if (points >= 20)
+	{
+		hoopSpeed = 15.0f;
+		hoop.setOutlineColor(Color::Magenta);
+	}
+		
+	if (points >= 20)
+	{
+		hoopSpeed = 20.0f;
+		hoop.setOutlineColor(Color::Cyan);
+	}
 }
