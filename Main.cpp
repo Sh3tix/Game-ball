@@ -1,12 +1,12 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <SFML/Audio.hpp>
 
 using namespace sf;
 
 // Prototype
 void updateBall(Sprite& ballSprite, RenderWindow& window, bool& isShot);
 void updateHoop(CircleShape& hoop, RenderWindow& window, int& dir, float& hoopSpeed);
-void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, bool& isShot, int& points, Text& textPoints);
+void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, bool& isShot, int& points, Text& textPoints, Sound& ballSound);
 void changeDifficulty(int& points, float& hoopSpeed);
 
 int main()
@@ -56,6 +56,15 @@ int main()
 	ballSprite.setTexture(ballTexture);
 	ballSprite.setPosition(Vector2f(0, window.getSize().y - 80));
 
+	// Creation of the "ballSound"
+	SoundBuffer ballBuffer;
+	if (!ballBuffer.loadFromFile("Sons/ball_sound.wav"))
+		throw("Impossible de charger le fichier audio.");
+
+	// Creation of the "ballSound"
+	Sound ballSound;
+	ballSound.setBuffer(ballBuffer);
+
 
 	while (window.isOpen())
 	{
@@ -76,7 +85,7 @@ int main()
 		updateBall(ballSprite, window, isShot);
 
 		// Collision ball
-		collisionBall(ballSprite, hoop, window, isShot, points, textPoints);
+		collisionBall(ballSprite, hoop, window, isShot, points, textPoints, ballSound);
 
 		// Change difficulty
 		changeDifficulty(points, hoopSpeed);
@@ -127,7 +136,7 @@ void updateHoop(CircleShape& hoop, RenderWindow& window, int& dir, float& hoopSp
 	}
 }
 
-void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, bool& isShot, int& points, Text& textPoints)
+void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, bool& isShot, int& points, Text& textPoints, Sound& ballSound)
 {
 
 	if (ballSprite.getGlobalBounds().intersects(hoop.getGlobalBounds()) || ballSprite.getPosition().y < -10)
@@ -138,6 +147,7 @@ void collisionBall(Sprite& ballSprite, CircleShape& hoop, RenderWindow& window, 
 		{
 			points++;
 			textPoints.setString("Points : " + std::to_string(points));
+			ballSound.play();
 		}
 
 		isShot = false;	
