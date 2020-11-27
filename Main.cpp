@@ -65,7 +65,6 @@ int main()
 	Sound ballSound;
 	ballSound.setBuffer(ballBuffer);
 
-
 	while (window.isOpen())
 	{
 		Event event;
